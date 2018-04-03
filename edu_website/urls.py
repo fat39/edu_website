@@ -14,8 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,re_path
+from edu_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    re_path("^$",views.Index.as_view()),
+    re_path("^search/$",views.Search.as_view()),
+    re_path(r"^search/teacher-(?P<course__grade__grade__nid>\d*)-(?P<course__course__nid>\d*)-(?P<teacher_level>\d*).html$",views.Search.as_view()),
 ]

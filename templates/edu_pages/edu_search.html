@@ -1,0 +1,55 @@
+{% extends "layout/layout_index.html" %}
+{% load searchbox %}
+
+{% block mycss %}
+    <style>
+        *{
+            color:black;
+        }
+        .teacher_box{
+            width:80%;
+            border:1px black solid;
+            margin:5px;
+        }
+
+        .teacher_box img{
+            width:100px;
+            margin:5px;
+            float:left;
+            border:1px black solid;
+        }
+    </style>
+    {% searchbox_css %}
+{% endblock %}
+
+{% block myhtml %}
+    <section id="content">
+        <section class="row-1">
+            <div id="search_area" class="container_12">
+                <h3>筛选条件</h3>
+                {% searchbox_html url_kwargs course_objlist 0 %}
+                {% searchbox_html url_kwargs grade_objlist 1 %}
+                {% searchbox_html url_kwargs level_choices 2 %}
+            </div>
+        </section>
+        <section class="row-1">
+            <div id="" class="container_12">
+                <div>共找到{{ teacher_list|length }}条结果</div>
+                {% for teacher in teacher_list %}
+                <div class="teacher_box clearfix">
+                    <div><img src="{{ teacher.avatar }}" alt="头像"></div>
+                    <div>{{ teacher.name }}<h5>{{ teacher.get_teacher_level_display }}</h5></div>
+                    <div>{{ teacher.note }}</div>
+                </div>
+                {% empty %}
+                    <div>查无结果</div>
+                {% endfor %}
+
+
+            </div>
+
+
+        </section>
+    </section>
+
+{% endblock %}

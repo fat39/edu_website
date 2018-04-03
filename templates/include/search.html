@@ -1,0 +1,21 @@
+{% load searchbox %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% searchbox_css %}
+</head>
+<body>
+
+
+
+    <div id="search_area">
+        <h3>筛选条件</h3>
+        {% searchbox_html url_kwargs course_objlist 0 %}
+        {% searchbox_html url_kwargs grade_objlist 1 %}
+
+    </div>
+
+</body>
+</html>

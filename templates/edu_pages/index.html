@@ -1,0 +1,64 @@
+{% extends "layout/layout_index.html" %}
+
+{% block mycss %}
+    <style>
+        .index_t_img{
+            width:200px;
+            float: left;
+            margin: -20px;
+        }
+    </style>
+{% endblock %}
+
+{% block myhtml %}
+<section id="main-banner">
+    <div class="container_12">
+        {% include "include/轮播图.html" %}
+    </div>
+</section>
+<section id="content">
+    <section class="row-1">
+        <div class="container_12">
+
+            <div class="clearfix">
+                {% for teacher in teacher_list %}
+                    <div class="grid_4">
+                        <!-- .box -->
+                        <div class="box clearfix">
+                            <h4>{{ teacher.get_teacher_level_display }}</h4>
+                            <h3 class="icon1">{{ teacher.name }}</h3>
+                            <p><img class="index_t_img" src="{{ teacher.avatar }}" alt=""></p>
+                            <p><b>介绍:</b>{{ teacher.note }}</p>
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+        </div>
+    </section>
+</section>
+<!-- footer -->
+<footer>
+    <div class="container_12">
+        <div class="indent">
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="current">home</a>|</li>
+                    <li><a href="index-1.html">services</a>|</li>
+                    <li><a href="index-2.html">solutions</a>|</li>
+                    <li><a href="index-3.html">partners</a>|</li>
+                    <li><a href="index-4.html">contacts</a></li>
+                </ul>
+            </nav>
+            <div>
+
+                <div class="v">Consultex (c) 2010 | <a href="index-5.html">Privacy Policy</a> - Collect from <a
+                        href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a></div>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}

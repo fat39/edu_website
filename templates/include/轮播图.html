@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>仿京东轮播图</title>
+<style>
+div,ul,li,a,span,img {
+	margin:0;
+	padding:0;
+}
+li {
+	list-style:none;
+}
+#circulate {
+	width:500px;
+	height:300px;
+	{#margin:10% auto;#}
+	margin:0 auto;
+	position:relative;
+}
+.circulate_list li {
+	position:absolute;
+	display:none;
+}
+.circulate_list li img{
+    width:100%;
+    height:300px;
+    {#width:100%;#}
+}
+.circulate_list li:first-child {
+	display:block;
+}
+.circulate_icon {
+	position:absolute;
+	z-index:1;
+	left:50%;
+	bottom:20px;
+	font-size:0;
+	padding:4px 8px;
+	margin-left:-96px;
+	border-radius:12px;
+	background-color:hsla(0,0%,100%,.3);
+}
+.circulate_icon i {
+	display:inline-block;
+	width:12px;
+	height:12px;
+	border-radius:50%;
+	margin:0 5px;
+}
+.bottom_btn {
+	background:#fff;
+}
+.arrow {
+	display:none;
+	width:30px;
+	height:60px;
+	background-color:rgba(0,0,0,.2);
+	position:absolute;
+	top:50%;
+	margin-top:-30px;
+}
+.prve {
+	left:0;
+}
+.next {
+	right:0;
+}
+.arrow span {
+	display:block;
+	width:10px;
+	height:10px;
+	border-bottom:2px solid #fff;
+	border-left:2px solid #fff;
+}
+.circulate_left {
+	margin:25px 0 0 10px;
+	transform:rotate(45deg);
+}
+.circulate_right {
+	margin:25px 0 0 5px;
+	transform:rotate(-135deg);
+}
+.arrow:hover {
+	background:#444;
+}
+#circulate:hover .arrow {
+	display:block;
+}
+.bottom_btn_act {
+	background:#db192a;
+}
+</style>
+</head>
+<body>
+<div id="circulate">
+	<ul class="circulate_list">
+        {% for pic in pics %}
+            <li><a href="{{ pic.link }}"><img src="{{ pic.path }}"></a></li>
+        {% endfor %}
+	</ul>
+	<div class="circulate_icon">
+        {% for pic in pics %}
+            {% if forloop.counter == 1 %}
+                <i class="bottom_btn bottom_btn_act"></i>
+            {% else %}
+                <i class="bottom_btn"></i>
+            {% endif %}
+        {% endfor %}
+	</div>
+	<a href="javascript:;" class="arrow prve">
+		<span class="circulate_left"></span>
+	</a>
+	<a href="javascript:;" class="arrow next">
+		<span class="circulate_right"></span>
+	</a>
+</div>
+
+<script src="/static/jquery-3.3.1.js"></script>
+<script>
+    $(function() {
+        var count = 0;
+        var myduration = 2000;  // 自动轮播的图片切换间隔
+        var $li = $("#circulate>ul>li");
+
+        function move_right(){
+            count++;
+            if (count == $li.length) {
+                count = 0;
+            }
+            $li.eq(count).fadeIn().siblings().fadeOut();
+            $(".circulate_icon i").eq(count).addClass("bottom_btn_act").siblings().removeClass('bottom_btn_act');
+            //console.log(count);
+        }
+
+        function move_left(){
+            count--;
+            if (count == -1) {
+                count = $li.length - 1;
+            }
+            //console.log(count);
+            $li.eq(count).fadeIn().siblings().fadeOut();
+            $(".circulate_icon i").eq(count).addClass("bottom_btn_act").siblings().removeClass('bottom_btn_act');
+        }
+
+        function move_icon(){
+            $(this).addClass('bottom_btn_act').siblings().removeClass("bottom_btn_act");
+            $li.eq($(this).index()).fadeIn().siblings().fadeOut();
+            count = $(this).index();
+        }
+
+        function manual_slide(){
+            var ID=setInterval(move_right,myduration)
+            // 手动轮播
+            $("#circulate").hover(function(){
+                clearInterval(ID)
+            },function(){
+                ID=setInterval(move_right,myduration)
+            });
+        }
+
+        $(".next").click(move_right)
+        $(".prve").click(move_left)
+        $(".circulate_icon i").mouseenter(move_icon)
+        manual_slide()
+    });
+</script>
+
+</body>
+</html>
